@@ -1,0 +1,112 @@
+[
+	{
+		"id": 1,
+		"title": "Taza con Logo",
+		"description": "Taza con logo de La Casa del Árbol",
+		"code": 9868416107,
+		"price": 800,
+		"status": true,
+		"stock": 8,
+		"category": "cocina",
+		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121565/arbol-app/taza_dbqvdo.jpg"
+	},
+	{
+		"id": 2,
+		"title": "Gorra con Logo",
+		"description": "Gorra con logo de La Casa del Árbol",
+		"code": 9868416108,
+		"price": 1000,
+		"status": true,
+		"stock": 10,
+		"category": "ropa",
+		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121564/arbol-app/gorra_ilnn0f.jpg"
+	},
+	{
+		"id": 3,
+		"title": "Buzo con Logo",
+		"description": "Buzo con logo de La Casa del Árbol",
+		"code": 9868416109,
+		"price": 800,
+		"status": true,
+		"stock": 8,
+		"category": "ropa",
+		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121565/arbol-app/taza_dbqvdo.jpg"
+	},
+	{
+		"id": 4,
+		"title": "Remera con Logo",
+		"description": "Remera con logo de La Casa del Árbol",
+		"code": 9868416110,
+		"price": 800,
+		"status": true,
+		"stock": 6,
+		"category": "ropa",
+		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121565/arbol-app/taza_dbqvdo.jpg"
+	},
+	{
+		"id": 5,
+		"title": "Cuaderno con Logo",
+		"description": "Cuaderno con logo de La Casa del Árbol",
+		"code": 9868416111,
+		"price": 800,
+		"status": true,
+		"stock": 3,
+		"category": "libreria",
+		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121565/arbol-app/taza_dbqvdo.jpg"
+	},
+	{
+		"id": 6,
+		"title": "Totebag con Logo",
+		"description": "Totebag con logo de La Casa del Árbol",
+		"code": 9868416112,
+		"price": 800,
+		"status": true,
+		"stock": 1,
+		"category": "libreria",
+		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121565/arbol-app/taza_dbqvdo.jpg"
+	},
+	{
+		"id": 7,
+		"title": "Mochila con Logo",
+		"description": "Mochila con logo de La Casa del Árbol",
+		"code": 9868416113,
+		"price": 800,
+		"status": true,
+		"stock": 8,
+		"category": "ropa",
+		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121565/arbol-app/taza_dbqvdo.jpg"
+	},
+	{
+		"id": 8,
+		"title": "Bolsa con Logo",
+		"description": "Bolsa con logo de La Casa del Árbol",
+		"code": 9868416114,
+		"price": 600,
+		"status": true,
+		"stock": 7,
+		"category": "ropa",
+		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121565/arbol-app/taza_dbqvdo.jpg"
+	},
+	{
+		"id": 9,
+		"title": "Pelota con Logo",
+		"description": "Pelota con logo de La Casa del Árbol",
+		"code": 9868416115,
+		"price": 700,
+		"status": true,
+		"stock": 10,
+		"category": "deporte",
+		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121565/arbol-app/taza_dbqvdo.jpg"
+	},
+	{
+		"id": 10,
+		"title": "Medias con Logo",
+		"description": "Medias con logo de La Casa del Árbol",
+		"code": 9868416116,
+		"price": 500,
+		"status": true,
+		"stock": 1,
+		"category": "ropa",
+		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121565/arbol-app/taza_dbqvdo.jpg"
+	}
+]
