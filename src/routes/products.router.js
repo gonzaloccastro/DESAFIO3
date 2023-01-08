@@ -1,8 +1,6 @@
 import express from "express";
 import {ProductManager} from "../productManager.js";
 import path from "path";
-import { v4 } from "uuid";
-
 
 const productRouter = express.Router();
 
@@ -27,7 +25,7 @@ const productManager = new ProductManager(
 
     productRouter.get("/:pid", async (req, res) => {
         try {
-            const pid = parseInt(req.params.id);
+            const pid = parseInt(req.params.pid);
             const productFound = await productManager.getProductById(pid);
             if (!productFound) {
                 res.status(404).send("Product not founded")
@@ -39,35 +37,24 @@ const productManager = new ProductManager(
             }
     });
 
-    productRouter.post("/", async (req, res) => {
-        const newProduct = {
-          id: v4(),
-          ...req.body,
-        };
-      
+      productRouter.post("/", async (req, res) => {
         try {
-          const products = await productManager.getProducts();
-          await productManager.writeFile([...products, newProduct]);
+          const newProduct = {
+            id: 1,
+            ...req.body,
+          };
+          await productManager.addProduct(newProduct);
           res.send(newProduct);
         } catch (err) {
-          res.status(500).send(err.message);
+          res.status(500).send("Error posting product.");
         }
       });
       
       productRouter.put("/:pid", async (req, res) => {
-        const { pid } = req.params;
-        const newProduct = req.body;
-      
         try {
-          const products = await productManager.getProducts();
-          const productIndex = products.findIndex((product) => product.id === pid);
-          if (productIndex === -1) {
-            res.status(404).send("Product not founded");
-            return;
-          }
-      
-          products[productIndex] = newProduct;
-          await productManager.writeFile(products);
+          const { pid } = req.params;
+          const newProduct = req.body;
+          await productManager.updateProduct.getProducts(pid, newProduct);
           res.send(newProduct);
         } catch (err) {
           res.status(500).send(err.message);
@@ -75,16 +62,14 @@ const productManager = new ProductManager(
       });
       
       productRouter.delete("/:pid", async (req, res) => {
-        const { pid } = req.params;
-      
         try {
+          const { pid } = req.params;
           const products = await productManager.getProducts();
           const productIndex = products.findIndex((product) => product.id === pid);
           if (productIndex === -1) {
             res.status(404).send("Product not founded");
             return;
           }
-      
           products.splice(productIndex, 1);
           await productManager.writeFile(products);
           res.send("Product deleted");

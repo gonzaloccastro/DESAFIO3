@@ -43,12 +43,13 @@ class FileManager {
         if (info) {
           this.products = JSON.parse(info);
         }
+        
         product.id = this.products.length
           ? this.products.reduce(
               (max, product) => (product.id > max ? product.id : max),
               0) + 1 : 1;
-        this.products.push(product);
 
+        this.products.push(product);
         await this.writeFile(this.products);
       } catch (err) {
         throw err;
@@ -76,15 +77,16 @@ class FileManager {
       }
     }
 
-    async updateProduct(id, product) {
+    async updateProduct(id, products) {
       try {
         const info = await this.readFile();
         this.products = JSON.parse(info);
         const index = this.products.findIndex((product) => product.id === id);
         if (index === -1) {
-          throw new Error("Product not founded");
+          throw new Error("Product not found");
         }
-        products[index] = { ...products[index], ...product };
+        products.id=id;
+        products[index] = products;
         await this.writeFile(this.products);
       } catch (err) {
         throw err;
@@ -127,7 +129,6 @@ class CartFileManager extends FileManager {
   async deleteProduct(cartId, productId) {
     try {
       const carts = await this.getInfo();
-
       const cart = carts.find((cart) => cart.id === cartId);
       if (!cart) {
         throw new Error("Cart not founded");
