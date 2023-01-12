@@ -43,8 +43,19 @@ const productManager = new ProductManager(
             id: 1,
             ...req.body,
           };
-          await productManager.addProduct(newProduct);
-          res.send(newProduct);
+          if (( !newProduct.title
+                || !newProduct.description
+                || !newProduct.code
+                || !newProduct.price
+                || !newProduct.status
+                || !newProduct.stock
+                || !newProduct.category
+            )) {
+            res.status(400).send("Missing data.")
+          } else {
+            await productManager.addProduct(newProduct);
+            res.send(newProduct);
+          }
         } catch (err) {
           res.status(500).send("Error posting product.");
         }

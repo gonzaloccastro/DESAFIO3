@@ -1,1 +1,3 @@
 *node_modules/*
+/src/routes/carts.router.js
+/src/routes/products.router.js

@@ -1,0 +1,63 @@
+<div>
+    <h1>¡Hola, estás operando con Websockets! </h1>
+</div>
+
+<form>
+    <h1>Formulario para agregar productos:</h1>
+    <label for="title">ID:</label><br>
+    <input type="text" id="prodId" name="prodTitle" value="ID"><br>
+    <br>
+    <label for="title">Título:</label><br>
+    <input type="text" id="prodTitle" name="prodTitle" value="Título"><br>
+    <br>
+    <label for="description">Descripción:</label><br>
+    <input type="text" id="prodDescription" name="prodTitle" value="Descripción"><br>
+    <br>
+    <label for="code">Código:</label><br>
+    <input type="text" id="prodCode" name="prodTitle" value="Código"><br>
+    <br>
+    <label for="price">Precio:</label><br>
+    <input type="text" id="prodPrice" name="prodTitle" value="Precio"><br>
+    <br>
+    <label for="stock">Stock:</label><br>
+    <input type="text" id="prodStock" name="prodTitle" value="Stock"><br>
+    <br>
+    <label for="stock">Categoría:</label><br>
+    <input type="text" id="prodCategory" name="prodCategory" value="Categoría"><br>
+    <br>
+    <label for="thumbnail">Imagen:</label><br>
+    <input type="text" id="prodThumbnail" name="prodTitle" value="Imagen"><br>
+    <br>
+    <input type="submit" id="submit" value="Agregar">
+</form>
+<br></br>
+<form>
+    <h1>Borrar productos por ID:</h1>
+    <label for="number">ID:</label><br>
+    <input type="number" id="delId" name="prodTitle" value="ID"><br>
+    <input type="submit" id="submitDelete" value="Borrar">
+</form>
+<br></br>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Título</th>
+    <th>Descripción</th>
+    <th>Código</th>
+    <th>Precio</th>
+    <th>Stock</th>
+    <th>Categoría</th>
+  </tr>
+
+{{#each products}}
+  <tr>
+    <td>{{this.id}}</td>
+    <td>{{this.title}}</td>
+    <td>{{this.description}}</td>
+    <td>{{this.code}}</td>
+    <td>{{this.price}}</td>
+    <td>{{this.stock}}</td>
+    <td>{{this.category}}</td>
+  </tr>
+{{/each}}
+</table>

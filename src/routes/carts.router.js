@@ -42,7 +42,7 @@ cartRouter.get("/:cid", async (req, res) => {
     const carts = await cartFileManager.getInfo();
     const cart = carts.find((cart) => cart.id === cid);
     if (!cart) {
-      res.status(404).send("Cart not founded");
+      res.status(404).send("Cart not found.");
       return;
     }
     res.send(cart);
@@ -52,30 +52,31 @@ cartRouter.get("/:cid", async (req, res) => {
 });
 
 cartRouter.post("/:cid/product/:pid", async (req, res) => {
-  const { cid, pid } = req.params;
   try {
+    const { cid } = req.params;
     const carts = await cartFileManager.getInfo();
     const cart = carts.find((cart) => cart.id === cid);
     if (!cart) {
-      res.status(404).send("Cart not founded");
+      res.status(404).send("Cart not found.");
       return;
     }
+    const pid = parseInt(req.params.pid);
     const products = await productManager.getInfo();
     const product = products.find((product) => product.id === pid);
     if (!product) {
-      res.status(404).send("Product not founded");
+      res.status(404).send("Product not found.");
       return;
     }
     const productInCart = cart.products.find((product) => product.id === pid);
     if (productInCart) {
       productInCart.quantity++;
       await cartFileManager.writeFile(carts);
-      res.send("Product added to the cart");
+      res.send("Product added to the cart.");
       return;
     } else {
       cart.products.push({ id: pid, quantity: 1 });
       await cartFileManager.writeFile(carts);
-      res.send("Product added to the cart");
+      res.send("Product added to the cart.");
       return;
     }
   } catch (err) {
@@ -84,24 +85,32 @@ cartRouter.post("/:cid/product/:pid", async (req, res) => {
 });
 
 cartRouter.delete("/:cid/product/:pid", async (req, res) => {
-  const { pid } = req.params;
+  const { cid } = req.params;
 
   try {
+
+    const carts = await cartFileManager.getInfo();
+    const cart = carts.find((cart) => cart.id === cid);
+    if (!cart) {
+      res.status(404).send("Cart not found.");
+      return;
+    };
+    const pid = parseInt(req.params.pid);
     const productInCart = cart.products.find((product) => product.id === pid);
     if (productInCart) {
       if (productInCart.quantity > 1) {
         productInCart.quantity--;
         await cartFileManager.writeFile(carts);
-        res.send("Product deleted from cart");
+        res.send("Product deleted from cart.");
         return;
       } else {
         cart.products = cart.products.filter((product) => product.id !== pid);
         await cartFileManager.writeFile(carts);
-        res.send("Product deleted from cart");
+        res.send("Product deleted from cart.");
         return;
       }
     } else {
-      res.status(404).send("Product not founded in cart");
+      res.status(404).send("Product not found in cart.");
       return;
     }
   } catch (err) {
@@ -116,12 +125,12 @@ cartRouter.delete("/:cid", async (req, res) => {
     const carts = await cartFileManager.getInfo();
     const cart = carts.find((cart) => cart.id === cid);
     if (!cart) {
-      res.status(404).send("Cart not founded");
+      res.status(404).send("Cart not found.");
       return;
     }
     const newCarts = carts.filter((cart) => cart.id !== cid);
     await cartFileManager.writeFile(newCarts);
-    res.send("Cart deleted");
+    res.send("Cart deleted.");
   } catch (err) {
     res.status(500).send(err.message);
   }

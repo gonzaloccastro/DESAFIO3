@@ -108,5 +108,32 @@
 		"stock": 1,
 		"category": "ropa",
 		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121565/arbol-app/taza_dbqvdo.jpg"
+	},
+	{
+		"id": 11,
+		"title": "Título",
+		"description": "Descripción",
+		"code": "Código",
+		"price": "Precio",
+		"stock": "Categoría",
+		"thumbnail": "Imagen"
+	},
+	{
+		"id": 12,
+		"title": "Título",
+		"description": "Descripción",
+		"code": "Código",
+		"price": "Precio",
+		"stock": "Categoría",
+		"thumbnail": "Imagen"
+	},
+	{
+		"id": 13,
+		"title": "Título",
+		"description": "Descripción",
+		"code": "Código",
+		"price": "Precio",
+		"stock": "Categoría",
+		"thumbnail": "Imagen"
 	}
 ]

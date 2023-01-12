@@ -43,12 +43,10 @@ class FileManager {
         if (info) {
           this.products = JSON.parse(info);
         }
-        
         product.id = this.products.length
           ? this.products.reduce(
               (max, product) => (product.id > max ? product.id : max),
               0) + 1 : 1;
-
         this.products.push(product);
         await this.writeFile(this.products);
       } catch (err) {
@@ -99,7 +97,7 @@ class FileManager {
         this.products = JSON.parse(info);
         const index = this.products.findIndex((product) => product.id === id);
         if (index === -1) {
-          throw new Error("Product not founded");
+          throw new Error("Product not found");
         }
         this.products.splice(index, 1);
         await this.writeFile(this.products);
@@ -115,7 +113,7 @@ class CartFileManager extends FileManager {
 
       const cart = carts.find((cart) => cart.id === cartId);
       if (!cart) {
-        throw new Error("Cart not founded");
+        throw new Error("Cart not found");
       }
 
       cart.products.push(productId);
@@ -131,12 +129,12 @@ class CartFileManager extends FileManager {
       const carts = await this.getInfo();
       const cart = carts.find((cart) => cart.id === cartId);
       if (!cart) {
-        throw new Error("Cart not founded");
+        throw new Error("Cart not found");
       }
 
       const index = cart.products.findIndex((product) => product === productId);
       if (index === -1) {
-        throw new Error("Product not founded");
+        throw new Error("Product not found");
       }
 
       cart.products.splice(index, 1);
