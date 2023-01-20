@@ -3,7 +3,6 @@ import {engine} from "express-handlebars";
 import __dirname from './utils.js';
 import router from "./routes/views.router.js";
 import { Server } from "socket.io";
-import productRouter from "./routes/products.router.js";
 import {ProductManager} from "./productManager.js";
 import path from "path";
 
@@ -34,16 +33,19 @@ const httpServer = app.listen(PORT, () => {
     socket.on("message", (data)=>{
       console.log(data);
     });
+
     socket.on("new-message", (data) => {
       const uploader = new ProductManager(
         path.resolve(process.cwd(), "public", "../src/public/products.json")
       );
       uploader.addProduct(data);
     });
-    socket.on("delete", (idProduct) => {
-      const deleteProduct = new ProductManager(
+
+    socket.on("delete", (productId) => {
+      const deleteProductById = new ProductManager(
         path.resolve(process.cwd(), "public", "../src/public/products.json")
       );
-      deleteProduct.deleteProduct(idProduct);
+      const idToDelete = productId.id;
+      deleteProductById.deleteProduct(idToDelete);
     });
   });

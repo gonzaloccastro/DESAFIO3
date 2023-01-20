@@ -1,8 +1,15 @@
 import express, { json } from 'express';
-import products from "../public/products.json" assert {type: 'json'};
 
 const router = express.Router();
-router.get('/',(req,res)=>{
+import {ProductManager} from "../productManager.js";
+import path from "path";
+
+const productManager = new ProductManager(
+    path.resolve(process.cwd(), "public", "../src/public/products.json")
+);
+
+router.get('/', async (req,res)=>{
+    const products = await productManager.getProducts();
     const main = {
         title: "Productos sin socket.io",
         products
@@ -10,7 +17,9 @@ router.get('/',(req,res)=>{
     res.render("home", main)
 });
 
-router.get('/realTimeProducts',(req,res)=>{
+
+router.get('/realTimeProducts', async (req,res)=>{
+    const products = await productManager.getProducts();
     const main = {
         title: "Productos con socket.io",
         products

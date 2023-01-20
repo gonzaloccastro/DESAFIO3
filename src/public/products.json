@@ -135,5 +135,14 @@
 		"price": "Precio",
 		"stock": "Categoría",
 		"thumbnail": "Imagen"
+	},
+	{
+		"id": 14,
+		"title": "Título",
+		"description": "Descripción",
+		"code": "Código",
+		"price": "Precio",
+		"stock": "Categoría",
+		"thumbnail": "Imagen"
 	}
 ]

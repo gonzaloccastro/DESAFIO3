@@ -17,9 +17,11 @@ document.getElementById("submit").addEventListener("click", function () {
 });
 
 document.getElementById("submitDelete").addEventListener("click", function () {
-    const idProduct = {
+
+    const productId =
+        {
         id: document.getElementById("delId").value}
-    socket.emit("delete", idProduct);
+    socket.emit("delete", productId);
 });
 
 
