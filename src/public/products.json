@@ -110,24 +110,6 @@
 		"thumbnail": "https://res.cloudinary.com/dihxvmgae/image/upload/v1665121565/arbol-app/taza_dbqvdo.jpg"
 	},
 	{
-		"id": 11,
-		"title": "Título",
-		"description": "Descripción",
-		"code": "Código",
-		"price": "Precio",
-		"stock": "Categoría",
-		"thumbnail": "Imagen"
-	},
-	{
-		"id": 12,
-		"title": "Título",
-		"description": "Descripción",
-		"code": "Código",
-		"price": "Precio",
-		"stock": "Categoría",
-		"thumbnail": "Imagen"
-	},
-	{
 		"id": 13,
 		"title": "Título",
 		"description": "Descripción",
@@ -142,7 +124,18 @@
 		"description": "Descripción",
 		"code": "Código",
 		"price": "Precio",
-		"stock": "Categoría",
+		"stock": "Stock",
+		"category": "Categoría",
+		"thumbnail": "Imagen"
+	},
+	{
+		"id": 15,
+		"title": "Título",
+		"description": "Descripción",
+		"code": "Código",
+		"price": "Precio",
+		"stock": "Stock",
+		"category": "Categoría",
 		"thumbnail": "Imagen"
 	}
 ]

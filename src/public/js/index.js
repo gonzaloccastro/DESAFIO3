@@ -10,7 +10,7 @@ document.getElementById("submit").addEventListener("click", function () {
       code: document.getElementById("prodCode").value,
       price: document.getElementById("prodPrice").value,
       stock: document.getElementById("prodStock").value,
-      stock: document.getElementById("prodCategory").value,
+      category: document.getElementById("prodCategory").value,
       thumbnail: document.getElementById("prodThumbnail").value
     };
     socket.emit("new-message", data);

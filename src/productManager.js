@@ -95,7 +95,7 @@ class FileManager {
       try {
         const info = await this.readFile();
         this.products = JSON.parse(info);
-        const index = this.products.findIndex((product) => product.id === id);
+        const index = this.products.findIndex((product) => product.id === parseInt(id));
         if (index === -1) {
           throw new Error("Product not found");
         }
