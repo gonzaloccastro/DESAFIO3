@@ -1,139 +1,57 @@
-import express from "express";
-import {CartFileManager, ProductManager} from "../productManager.js";
-import path from "path";
-import { v4 } from "uuid";
+import express, { json } from 'express';
+/*import { uuid } from 'uuidv4';*/
+import  {CartFileManager} from "../dao/classes/DbManager.js";
+
 
 const cartRouter = express.Router();
-const cartFileManager = new CartFileManager(
-  path.resolve(process.cwd(), "public", "../src/public/carts.json")
-);
-const productManager = new ProductManager(
-  path.resolve(process.cwd(), "public", "../src/public/products.json")
-);
+const cartFileManager = new CartFileManager();
 
-cartRouter.get("/", async (req, res) => {
-  try {
-    const carts = await cartFileManager.getInfo();
-    res.send(carts);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
+cartRouter.get('/', async (req,res)=>{
+    try {
+       const carts = await cartFileManager.read();
+       res.send(carts);
+    } catch (error) {
+        res.status(500).send(err.message);
+    }
 });
 
-cartRouter.post("/", async (req, res) => {
-  const newCart = {
-    id: v4(),
-    products: [],
-  };
-
-  try {
-    const carts = await cartFileManager.getInfo();
-    await cartFileManager.writeFile([...carts, newCart]);
-    res.send(newCart);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
-
-cartRouter.get("/:cid", async (req, res) => {
-  const { cid } = req.params;
-
-  try {
-    const carts = await cartFileManager.getInfo();
-    const cart = carts.find((cart) => cart.id === cid);
-    if (!cart) {
-      res.status(404).send("Cart not found.");
-      return;
-    }
-    res.send(cart);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
-
-cartRouter.post("/:cid/product/:pid", async (req, res) => {
-  try {
-    const { cid } = req.params;
-    const carts = await cartFileManager.getInfo();
-    const cart = carts.find((cart) => cart.id === cid);
-    if (!cart) {
-      res.status(404).send("Cart not found.");
-      return;
-    }
-    const pid = parseInt(req.params.pid);
-    const products = await productManager.getInfo();
-    const product = products.find((product) => product.id === pid);
-    if (!product) {
-      res.status(404).send("Product not found.");
-      return;
-    }
-    const productInCart = cart.products.find((product) => product.id === pid);
-    if (productInCart) {
-      productInCart.quantity++;
-      await cartFileManager.writeFile(carts);
-      res.send("Product added to the cart.");
-      return;
-    } else {
-      cart.products.push({ id: pid, quantity: 1 });
-      await cartFileManager.writeFile(carts);
-      res.send("Product added to the cart.");
-      return;
-    }
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
-
-cartRouter.delete("/:cid/product/:pid", async (req, res) => {
-  const { cid } = req.params;
-
-  try {
-
-    const carts = await cartFileManager.getInfo();
-    const cart = carts.find((cart) => cart.id === cid);
-    if (!cart) {
-      res.status(404).send("Cart not found.");
-      return;
+cartRouter.post('/', async (req,res)=>{
+    const newCart = {
+        ...req.body 
     };
-    const pid = parseInt(req.params.pid);
-    const productInCart = cart.products.find((product) => product.id === pid);
-    if (productInCart) {
-      if (productInCart.quantity > 1) {
-        productInCart.quantity--;
-        await cartFileManager.writeFile(carts);
-        res.send("Product deleted from cart.");
-        return;
-      } else {
-        cart.products = cart.products.filter((product) => product.id !== pid);
-        await cartFileManager.writeFile(carts);
-        res.send("Product deleted from cart.");
-        return;
-      }
-    } else {
-      res.status(404).send("Product not found in cart.");
-      return;
+
+    try{
+        const response = await cartFileManager.create(newCart);
+        res.send(response);
+    } catch (error) {
+        res.status(500).send(err.message);
     }
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
 });
 
-cartRouter.delete("/:cid", async (req, res) => {
-  const { cid } = req.params;
 
-  try {
-    const carts = await cartFileManager.getInfo();
-    const cart = carts.find((cart) => cart.id === cid);
-    if (!cart) {
-      res.status(404).send("Cart not found.");
-      return;
+cartRouter.put("/:pid", async (req, res) => {
+    const {pid} = req.params;
+    const newCart = req.body;
+    try {
+        const response = await cartFileManager.update(pid, newCart)
+        res.send(response);
+    } catch (error) {
+        res.status(500).send(err.message);
     }
-    const newCarts = carts.filter((cart) => cart.id !== cid);
-    await cartFileManager.writeFile(newCarts);
-    res.send("Cart deleted.");
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
+})
 
+cartRouter.delete("/:pid", async (req, res) => {
+    const {pid} = req.params;
+    const newProduct = req.body;
+    try {
+        const response = await cartFileManager.delete(pid, newProduct)
+        res.send({
+                message:"Producto Eliminado",
+                id: pid,
+        })
+    } catch (error) {
+        res.status(500).send(err.message);
+    }
+}
+)
 export default cartRouter;

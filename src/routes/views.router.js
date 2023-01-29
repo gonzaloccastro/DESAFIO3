@@ -1,14 +1,24 @@
-import express, { json } from 'express';
+import express from "express";
 
 const router = express.Router();
-import {ProductManager} from "../productManager.js";
-import path from "path";
+
+router.get("/", (req, res) => {
+  console.log("Corriendo desde el servidor");
+  res.render("chat", {});
+});
+
+
+export default router;
+/*
+
+const router = express.Router();
 
 const productManager = new ProductManager(
     path.resolve(process.cwd(), "public", "../src/public/products.json")
 );
 
-router.get('/', async (req,res)=>{
+
+router.get('/a', async (req,res)=>{
     const products = await productManager.getProducts();
     const main = {
         title: "Productos sin socket.io",
@@ -26,5 +36,4 @@ router.get('/realTimeProducts', async (req,res)=>{
     };
     res.render("realTimeProducts", main)
 });
-
-export default router;
+*/
