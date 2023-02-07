@@ -80,8 +80,11 @@ class CartFileManager {
       }
       previousCart.splice(checkExists, 1, myProduct);
       const cart = { product:previousCart};
+      console.log(cart);
  
       const updatedCart = await cartModel.findByIdAndUpdate(id, cart);
+      console.log(cart);
+
       return updatedCart;
     } catch (error) {
       throw error;
