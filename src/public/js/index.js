@@ -1,4 +1,4 @@
-const socket = io();
+/*const socket = io();
 let chatBox = document.getElementById("chatBox");
 
 console.log("desde el cliente");
@@ -87,10 +87,10 @@ function firstLoad() {
 }
 
 firstLoad();
+*/
 
-
-
-/* const socket = io();
+/*
+const socket = io();
 socket.emit("message", "Listo desde cliente.");
 
 document.getElementById("submit").addEventListener("click", function () {
@@ -107,13 +107,13 @@ document.getElementById("submit").addEventListener("click", function () {
     };
     socket.emit("new-message", data);
 });
-
+*/
+/*
 document.getElementById("submitDelete").addEventListener("click", function () {
 
     const productId =
         {
         id: document.getElementById("delId").value}
     socket.emit("delete", productId);
-}); */ 
-
-
+});
+*/

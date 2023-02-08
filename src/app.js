@@ -9,10 +9,16 @@ import mongoose from "mongoose";
 import productRouter from "./routes/products.router.js";
 import cartRouter from "./routes/carts.router.js";
 import { MessagesFileManager } from "./dao/classes/DBManager.js";
+import * as dotenv from "dotenv";
 
+
+dotenv.config();
+const PORT = process.env.PORT || 8080;
+const DB_NAME = process.env.DB_NAME;
+const DB_USER = process.env.DB_USER;
+const DB_PASS = process.env.DB_PASS;
 
 const app = express();
-const PORT = 8080;
 
 app.engine('handlebars', engine());
 app.set('views', __dirname+'/views');
@@ -22,9 +28,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname+'/public'))
 
-app.use("/products", productRouter);
+app.use("/", productRouter);
 app.use("/carts", cartRouter);
 app.use("/chat", router);
+
 
 const messages = [];
 
@@ -32,20 +39,23 @@ const messages = [];
 
 const httpServer = app.listen(PORT, () => {
     console.log(`Server started at http://localhost:${PORT}`);
-    console.log(`Iniciado con socket.io`)
+    /*console.log(`Iniciado con socket.io`)*/
   });
 
-
-mongoose.connect(
-  "mongodb+srv://gonzaloccastro:Casacasa123@cluster0.rwwtfis.mongodb.net/ecommerce", (error) => {
-    if (error) {
-      console.log("Error de conexión");
-      process.exit();
-    } else {
-      console.log("Conectado a la base de datos");
+const environment = async () => {
+  mongoose.connect(
+    `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.rwwtfis.mongodb.net/${DB_NAME}`, (error) => {
+      if (error) {
+        console.log("Error de conexión");
+        process.exit();
+      } else {
+        console.log("Conectado a la base de datos");
+      }
     }
-  }
-);
+  );
+}
+environment();
+
 
 const socketServer = new Server(httpServer);
 socketServer.on("connection", (socket)=>{
@@ -83,9 +93,7 @@ app.get("/", (req, res) => {
 });
 app.post("/socketMessage", (req, res) => {
   const { message } = req.body;
-
   socketServer.emit("message", message);
-
   res.send("ok");
 });
 
@@ -115,3 +123,10 @@ socketServer.on("connection", (socket) => {
 
 
 });
+
+const isEnvSetted = () => {
+  if (DB_PASS && DB_USER) return true;
+  else return false;
+};
+
+isEnvSetted && environment();

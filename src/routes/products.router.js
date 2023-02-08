@@ -6,19 +6,40 @@ const productRouter = express.Router();
 const productFileManager = new ProductFileManager();
 
 productRouter.get('/', async (req,res)=>{
-    const {limit, offset, queryField, queryValue, queryOperator} = req.query;
+
+    let limite = !req.params.limit ? 2 : parseInt(req.params.limit);
+    let filtro = !req.params.query ? {} : req.params.query;
+    let pagina = !req.params.page ? 2 : parseInt(req.params.page);
+    let orden = !req.params.sort ? 1 : parseInt(req.params.sort);
 
     try {
-       const products = await productFileManager.read();
+        const fullProducts = await productFileManager.read();
+       /*console.log(limite);
+        let products = await productFileManager.paginate({filtro},{limite, pagina, orden,});*/
+        const main = {
+            title: "Productos",
+            ...fullProducts,
+        };
+        res.render("products", {title: "Products", main});
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+})
 
-       const limit = req.query.limit;
-       let limitedProducts;
-       if (limit) {
-       limitedProducts = products.slice(0, limit);
-       }
 
-       res.send(limitedProducts || products);
+productRouter.get('/products', async (req,res)=>{
+    
+    let limite = !req.params.limit ? 2 : parseInt(req.params.limit);
+    let filtro = !req.params.query ? {} : req.params.query;
+    let pagina = !req.params.page ? 2 : parseInt(req.params.page);
+    let orden = !req.params.sort ? 1 : parseInt(req.params.sort);
 
+    try {
+        const fullProducts = await productFileManager.read();
+        console.log(limite);
+        let products = await productFileManager.paginate({filtro},{limite, pagina, orden,});
+        console.log(products)
+        res.send(products || fullProducts);
     } catch (error) {
         res.status(500).send(error.message);
     }
