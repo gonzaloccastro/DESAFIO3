@@ -5,19 +5,21 @@ import { ProductFileManager } from '../dao/classes/DbManager.js';
 
 
 const cartRouter = express.Router();
+cartRouter.use(express.json());
 const cartFileManager = new CartFileManager();
 const productFileManager = new ProductFileManager();
 
-cartRouter.get('/', async (req,res)=>{
+cartRouter.get('/carts', async (req,res)=>{
     try {
        const carts = await cartFileManager.read();
        const main = {
         title: "Carritos",
-        ...carts,
+        carts: carts,
     };
-        res.render("carts", main);
+    console.log(carts);
+    res.render("carts", main,);
     } catch (error) {
-        res.status(500).send(error.message);
+    res.status(500).send(error.message);
     }
 });
 

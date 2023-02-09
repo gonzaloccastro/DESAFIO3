@@ -15,6 +15,7 @@ class ProductFileManager {
     }
   }
 
+
   async paginate({},{limite, pagina, orden}) {
 
     try {
@@ -35,6 +36,8 @@ class ProductFileManager {
         throw err;  
     }
   }
+
+
 
   async create(product) {
     try {

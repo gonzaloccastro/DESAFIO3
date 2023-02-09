@@ -3,6 +3,7 @@ import  {ProductFileManager} from "../dao/classes/DbManager.js";
 
 
 const productRouter = express.Router();
+productRouter.use(express.json());
 const productFileManager = new ProductFileManager();
 
 productRouter.get('/', async (req,res)=>{
@@ -14,12 +15,14 @@ productRouter.get('/', async (req,res)=>{
 
     try {
         const fullProducts = await productFileManager.read();
-       /*console.log(limite);
-        let products = await productFileManager.paginate({filtro},{limite, pagina, orden,});*/
-
-        let products = await productFileManager.paginate({filtro},{limite, pagina, orden,})
-        console.log(...products.docs)
-        res.render("products", products.docs);
+        
+        let products = await productFileManager.paginate({filtro},{limite, pagina, orden,},);
+        const productsB = {
+            title: "Productos",
+            products: (products),
+        };
+        console.log(products);
+        res.render("products", productsB);
     } catch (error) {
         res.status(500).send(error.message);
     }

@@ -14,13 +14,14 @@
   </tr>
 {{#each products}}
   <tr>
-    <td>{{id}}</td>
-    <td>{{title}}</td>
-    <td>{{description}}</td>
-    <td>{{code}}</td>
-    <td>{{price}}</td>
-    <td>{{stock}}</td>
-    <td>{{category}}</td>
+    <td>{{this.id}}</td>
+    <td>{{this.title}}</td>
+    <td>{{this.description}}</td>
+    <td>{{this.code}}</td>
+    <td>{{this.price}}</td>
+    <td>{{this.stock}}</td>
+    <td>{{this.category}}</td>
   </tr>
 {{/each}}
+
 </table>
