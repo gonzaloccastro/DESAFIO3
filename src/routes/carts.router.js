@@ -11,7 +11,11 @@ const productFileManager = new ProductFileManager();
 cartRouter.get('/', async (req,res)=>{
     try {
        const carts = await cartFileManager.read();
-       res.send(carts);
+       const main = {
+        title: "Carritos",
+        ...carts,
+    };
+        res.render("carts", main);
     } catch (error) {
         res.status(500).send(error.message);
     }

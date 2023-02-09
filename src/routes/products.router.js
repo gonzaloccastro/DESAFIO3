@@ -7,20 +7,19 @@ const productFileManager = new ProductFileManager();
 
 productRouter.get('/', async (req,res)=>{
 
-    let limite = !req.params.limit ? 2 : parseInt(req.params.limit);
+    let limite = !req.params.limit ? 10 : parseInt(req.params.limit);
     let filtro = !req.params.query ? {} : req.params.query;
-    let pagina = !req.params.page ? 2 : parseInt(req.params.page);
+    let pagina = !req.params.page ? 1 : parseInt(req.params.page);
     let orden = !req.params.sort ? 1 : parseInt(req.params.sort);
 
     try {
         const fullProducts = await productFileManager.read();
        /*console.log(limite);
         let products = await productFileManager.paginate({filtro},{limite, pagina, orden,});*/
-        const main = {
-            title: "Productos",
-            ...fullProducts,
-        };
-        res.render("products", {title: "Products", main});
+
+        let products = await productFileManager.paginate({filtro},{limite, pagina, orden,})
+        console.log(...products.docs)
+        res.render("products", products.docs);
     } catch (error) {
         res.status(500).send(error.message);
     }
