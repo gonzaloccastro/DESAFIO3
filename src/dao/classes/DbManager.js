@@ -15,29 +15,14 @@ class ProductFileManager {
     }
   }
 
-
-  async paginate({},{limite, pagina, orden}) {
-
+  async paginate({query},{limit, page, sort}) {
     try {
-      const limit=limite;
-      
-      const page=pagina;
-      console.log(page)
-
-
-      const sort={price:orden};
-      console.log(sort)
-
-      let products = await productModel.paginate({}, {limit:limit, page:page, sort:sort,});
-
+      let products = await productModel.paginate(query, {limit, page, sort: { price: sort}});
       return products;
-
-    } catch (err) {
-        throw err;  
+    } catch (error) {
+        throw error;  
     }
   }
-
-
 
   async create(product) {
     try {

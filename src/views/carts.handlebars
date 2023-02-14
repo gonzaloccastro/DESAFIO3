@@ -1,3 +1,17 @@
 <div>
     <h1>¡Hola, estos son los carritos! </h1>
 </div>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Products</th>
+    </th>
+  </tr>
+{{#each carts}}
+  <tr>
+    <td>{{this.id}}</td>
+    <td>{{this.products}}</td>
+  </tr>
+{{/each}}
+
+</table>

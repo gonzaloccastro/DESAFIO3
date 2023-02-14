@@ -7,28 +7,21 @@ productRouter.use(express.json());
 const productFileManager = new ProductFileManager();
 
 productRouter.get('/', async (req,res)=>{
-
-    let limite = !req.params.limit ? 10 : parseInt(req.params.limit);
-    let filtro = !req.params.query ? {} : req.params.query;
-    let pagina = !req.params.page ? 1 : parseInt(req.params.page);
-    let orden = !req.params.sort ? 1 : parseInt(req.params.sort);
+    const {limit, page, sort, query} = req.query;
 
     try {
-        const fullProducts = await productFileManager.read();
-        
-        let products = await productFileManager.paginate({filtro},{limite, pagina, orden,},);
-        const productsB = {
+        const products = await productFileManager.paginate({query: query || ""},{limit: parseInt(limit) || 10, page: parseInt(page) || 1, sort: parseInt(sort) || 1});
+        const main = {
             title: "Productos",
-            products: (products),
+            products: products.docs,
         };
-        console.log(products);
-        res.render("products", productsB);
+        res.render("products", main);
     } catch (error) {
         res.status(500).send(error.message);
     }
-})
+});
 
-
+/*
 productRouter.get('/products', async (req,res)=>{
     
     let limite = !req.params.limit ? 2 : parseInt(req.params.limit);
@@ -45,7 +38,7 @@ productRouter.get('/products', async (req,res)=>{
     } catch (error) {
         res.status(500).send(error.message);
     }
-});
+});*/
 
 productRouter.get('/:pid', async (req,res)=>{
     try {

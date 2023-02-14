@@ -17,7 +17,7 @@ cartRouter.get('/carts', async (req,res)=>{
         carts: carts,
     };
     console.log(carts);
-    res.render("carts", main,);
+    res.render("carts", main);
     } catch (error) {
     res.status(500).send(error.message);
     }

@@ -11,7 +11,6 @@ import cartRouter from "./routes/carts.router.js";
 import { MessagesFileManager } from "./dao/classes/DBManager.js";
 import * as dotenv from "dotenv";
 
-
 dotenv.config();
 const PORT = process.env.PORT || 8080;
 const DB_NAME = process.env.DB_NAME;
@@ -20,7 +19,15 @@ const DB_PASS = process.env.DB_PASS;
 
 const app = express();
 
-app.engine('handlebars', engine());
+app.engine('handlebars', engine(
+  {
+    extname: 'handlebars',  
+    runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true}
+  }
+));
+
 app.set('views', __dirname+'/views');
 app.set('view engine', 'handlebars');
 
