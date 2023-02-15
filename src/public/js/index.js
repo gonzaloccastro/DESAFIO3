@@ -6,15 +6,18 @@ const elementExists = (id) => document.getElementById(id) !== null;
 
 elementExists("send") &&
   document.getElementById("send").addEventListener("click", function () {
-    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    fetch(`/login?username=${username}&password=${password}`, {});
+    console.log(email);
+    console.log(password);
+
+    fetch(`/login?email=${email}&password=${password}`, {});
     console
-      .log("Prueba conexión")
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+    .log("prueba login")
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
   });
 
 elementExists("getButton") &&
@@ -33,7 +36,7 @@ elementExists("signup") &&
     const data = Object.fromEntries(formData);
     console.log(data);
 
-    fetch("/signup", {
+    fetch("/signup/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

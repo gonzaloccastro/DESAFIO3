@@ -15,7 +15,7 @@ productRouter.get('/', async (req,res)=>{
             title: "Productos",
             products: products.docs,
         };
-        res.render("products", main, {status:"success", payload: response});
+        res.render("products", main,);
     } catch (error) {
         res.status(500).send(error.message);
     }

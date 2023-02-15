@@ -7,7 +7,7 @@ router.get("/login", async (req, res) => {
   const { email, password } = req.query;
 
   if (!email || !password) {
-    res.render("login", { title: "Login" });
+    res.render("login", {title: "Login" });
   } else {
     try {
       const response = await userModel.find({
@@ -19,7 +19,7 @@ router.get("/login", async (req, res) => {
         res.send("Usuario encontrado");
       } else {
         //alert("Usuario no encontrado");
-        res.render("login", { style: "css/login.css" });
+        res.render("login", {title: "Login no encontrado" });
       }
     } catch (err) {
       res.status(500).send(err.message);

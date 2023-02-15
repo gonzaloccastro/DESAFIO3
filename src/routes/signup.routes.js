@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/signup", (req, res) => {
     console.log("Nuevo usuario conectado");
-    res.render("signup", { title: "Signup" });
+    res.render("signup", { title: "Signup"});
   });
 
 router.post("/signup", async (req, res) => {
