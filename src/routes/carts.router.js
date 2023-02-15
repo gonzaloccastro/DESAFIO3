@@ -16,8 +16,8 @@ cartRouter.get('/carts', async (req,res)=>{
         title: "Carritos",
         carts: carts,
     };
-    console.log(carts);
-    res.render("carts", main);
+    console.log(JSON.stringify(carts, null, "\t"));
+    res.render("carts", main, {status:"success", payload: response});
     } catch (error) {
     res.status(500).send(error.message);
     }
@@ -30,7 +30,7 @@ cartRouter.post('/', async (req,res)=>{
 
     try{
         const response = await cartFileManager.create(newCart);
-        res.send(response);
+        res.send(response, {status:"success", payload: response});
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -43,7 +43,7 @@ cartRouter.put("/:cid", async (req, res) => {
 
     try {
         const response = await cartFileManager.update(cid, newProduct);
-        res.send(response);
+        res.send(response, {status:"success", payload: response});
 
     } catch (error) {
         res.status(500).send(error.message);
@@ -57,7 +57,7 @@ cartRouter.put("/:cid/products/:pid", async (req, res) => {
     };
     try {
         const response = await cartFileManager.update(cid, newQuantity);
-        res.send(response);
+        res.send(response, {status:"success", payload: response});
 
     } catch (error) {
         res.status(500).send(error.message);
@@ -83,8 +83,7 @@ cartRouter.delete("/:pid", async (req, res) => {
 cartRouter.delete("/delete", async (req, res) => {
     try {
         const response = await cartFileManager.deleteAllCarts({});
-        console.log(response);
-        res.send(response)
+        res.send(response, {status:"success", payload: response})
     } catch (error) {
         res.status(500).send(error.message);
     }
