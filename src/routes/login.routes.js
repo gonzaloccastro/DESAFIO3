@@ -1,4 +1,5 @@
 import { Router } from "express";
+import mongoose from "mongoose";
 import userModel from "../models/user.model.js";
 
 const router = Router();
@@ -14,9 +15,10 @@ router.get("/login", async (req, res) => {
         email: email,
         password: password,
       });
-      console.log(response);
+      console.log(response[0]);
+      console.log("prueba 2 login" , response);
       if (response.length > 0) {
-        res.send("Usuario encontrado");
+        res.send("Login encontrado",{ status: "success", payload: response });
       } else {
         //alert("Usuario no encontrado");
         res.render("login", {title: "Login no encontrado" });

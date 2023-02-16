@@ -5,20 +5,16 @@ let chatBox = document.getElementById("chatBox");
 const elementExists = (id) => document.getElementById(id) !== null;
 
 elementExists("send") &&
-  document.getElementById("send").addEventListener("click", function () {
+document.getElementById("send").addEventListener("click", function () {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    console.log(email);
-    console.log(password);
-
-    fetch(`/login?email=${email}&password=${password}`, {});
-    console
-    .log("prueba login")
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-  });
+    console.log(email, password)
+    fetch(`/login?email=${email}&password=${password}`, {})
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+});
 
 elementExists("getButton") &&
   document.getElementById("getButton").addEventListener("click", function () {
@@ -27,7 +23,7 @@ elementExists("getButton") &&
         console.log(data);
       });
     });
-  });
+});
 
 elementExists("signup") &&
   document.getElementById("signup").addEventListener("click", function () {

@@ -15,6 +15,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import signupRouter from "./routes/signup.routes.js";
 import loginRouter from "./routes/login.routes.js";
+import bodyParser from "express";
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;
@@ -37,12 +38,13 @@ app.engine('handlebars', engine(
 app.set('views', __dirname+'/views');
 app.set('view engine', 'handlebars');
 
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname+'/public'))
 
-app.use("/", productRouter);
+app.use("/products", productRouter);
 app.use("/carts", cartRouter);
 /*app.use("/chat", router);*/
 
@@ -63,7 +65,7 @@ app.use(
 );
 
 app.use("/signup", signupRouter);
-app.use("/login", loginRouter);
+app.use("/", loginRouter);
 
 const messages = [];
 
