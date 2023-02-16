@@ -1,19 +1,16 @@
 <div>
     <div><h1>Hola, logueate para entrar:</h1></div>
-    <div class="chat-container">
-
-        <input type="text" placeholder="Email" name="email" id="email" required="true" />
-
-        <input
-        type="password"
-        placeholder="Password"
-        name="password"
-        id="password"
-        required="true"
-        />
-        <button id="send">Enviar</button>
-        <button id="getButton">Get Cookie</button>
-
-    </div>
-
+    <form action="/" method="post">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input id="email" type="email" class="form-control" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input id="password" type="password" class="form-control" name="password" required>
+        </div>
+        <button type="submit" id="send" class="btn btn-primary">Submit</button>
+        <button id="getButton">Recibir una Cookie</button>
+        <button id="register">Registrate</button>
+    </form>
 </div>
