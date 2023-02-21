@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
       } catch (err) {
         res.status(500).send(err.message);
       }
-  }
+  } 
 });
 
 router.post("/", async (req, res) => {
