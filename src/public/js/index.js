@@ -10,7 +10,7 @@ document.getElementById("send").addEventListener("click", function () {
     const password = document.getElementById("password").value;
 
     console.log(email, password)
-    fetch(`/?email=${email}&password=${password}`, {})
+    fetch(`/?email=${email}&password=${password}`)
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
