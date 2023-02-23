@@ -3,7 +3,7 @@ import userModel from "../models/user.model.js";
 
 const router = Router();
 
-router.get("/signup", (req, res) => {
+router.get("/", (req, res) => {
     console.log("Nuevo usuario conectado");
     res.render("signup", { title: "Signup"});
   });

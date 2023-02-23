@@ -24,13 +24,7 @@ router.get("/", async (req, res) => {
         console.log("prueba 2 login" , response);
         if (response.length > 0) {
           try {
-            const products = await productFileManager.find();
-            console.log(products.docs)
-            const main = {
-                title: "Productos",
-                products: products.docs,
-            };
-            res.render("products", main);     
+            res.render("perfil", {title: "Perfil" });     
           } catch (error) {
             res.status(500).send(error.message);
         }
