@@ -3,14 +3,15 @@ import mongoose from "mongoose";
 import userModel from "../models/user.model.js";
 import  {ProductFileManager} from "../dao/classes/DbManager.js";
 
-const productFileManager = new ProductFileManager();
 
 const router = Router();
+const productFileManager = new ProductFileManager();
+
 
 router.get("/", async (req, res) => {
   const { email, password } = req.query;
 
-    if(!email || !password || req.session == null || req.session.admin == false || req.session.admin ==undefined){
+    if(!email || !password){
       res.render("login", {title: "Login" });
     }
     else {
@@ -23,13 +24,14 @@ router.get("/", async (req, res) => {
         console.log("prueba 2 login" , response);
         if (response.length > 0) {
           try {
-            const products = await productFileManager.paginate({query: query || ""},{limit: parseInt(limit) || 10, page: parseInt(page) || 1, sort: parseInt(sort) || 1});
+            const products = await productFileManager.find();
+            console.log(products.docs)
             const main = {
                 title: "Productos",
                 products: products.docs,
             };
-            res.render("products", main,);
-        } catch (error) {
+            res.render("products", main);     
+          } catch (error) {
             res.status(500).send(error.message);
         }
         } else {

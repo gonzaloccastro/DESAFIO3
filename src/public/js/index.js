@@ -5,12 +5,12 @@ let chatBox = document.getElementById("chatBox");
 const elementExists = (id) => document.getElementById(id) !== null;
 
 elementExists("send") &&
-document.getElementById("send").addEventListener("click", function () {
+document.getElementById("send").addEventListener("click", async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
     console.log(email, password)
-    fetch(`/?email=${email}&password=${password}`)
+    await fetch(`/?email=${email}&password=${password}`)
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
