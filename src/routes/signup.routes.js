@@ -4,11 +4,11 @@ import userModel from "../models/user.model.js";
 const router = Router();
 
 router.get("/", (req, res) => {
-    console.log("Nuevo usuario conectado");
+    console.log("Nuevo usuario para registrarse");
     res.render("signup", { title: "Signup"});
   });
 
-router.post("/signup", async (req, res) => {
+router.post("/", async (req, res) => {
   const { first_name, last_name, email, age, password } = req.body;
 
   const newUser = {
@@ -21,7 +21,7 @@ router.post("/signup", async (req, res) => {
 
   try {
     const response = await userModel.create(newUser);
-    res.send({ status: "success", payload: response });
+    res.send({ status: "success", payload: response }).redirect('/login');
   } catch (err) {
     res.status(500).send(err.message);
   }

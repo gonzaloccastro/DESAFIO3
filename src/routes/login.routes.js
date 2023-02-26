@@ -10,36 +10,28 @@ const productFileManager = new ProductFileManager();
 
 router.get("/", async (req, res) => {
   const { email, password } = req.query;
-
+  try {
     if(!email || !password){
       res.render("login", {title: "Login" });
-    }
-    else {
-      try {
-        const response = await userModel.find({
-          email: email,
-          password: password,
-        }
-        );
-        console.log("prueba 2 login" , response);
-        if (response.length > 0) {
-          try {
-            res.render("perfil", {title: "Perfil" });     
-          } catch (error) {
-            res.status(500).send(error.message);
-        }
-        } else {
-          //alert("Usuario no encontrado");
-          res.render("login", {title: "Login no encontrado" });
-        }
-      } catch (err) {
+    }} catch (err) {
         res.status(500).send(err.message);
       }
-  } 
 });
 
 router.post("/", async (req, res) => {
     const { email, password } = req.body;
+
+    try {
+      const user = await userModel.findOne({email: email,password: password,});
+      if (!user) {
+        return res.status(500).json({message: 'User not found'})
+      }
+      user['password'] = undefined;
+      req.session.user = user;
+
+      res.status(200).redirect('/products');
+    } catch (err) {
+    res.status(500).json({ message: err.message })}
 
 });
 

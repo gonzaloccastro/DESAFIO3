@@ -81,9 +81,6 @@ const environment = async () => {
     .catch((error) => console.log("Error de conexion", error));
 };
 
-environment();
-
-
 const socketServer = new Server(httpServer);
 socketServer.on("connection", (socket)=>{
   socket.emit("message", "Bienvenido")
