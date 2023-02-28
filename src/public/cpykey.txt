@@ -1,0 +1,8 @@
+App ID: 299374
+
+Client ID: Iv1.772fa90e3cb3f47a
+
+
+Private key
+SHA256:AsrfJut6pOOZMxxSmUCzBiJ6aWl6dA+U7I/VLAKD92o=
+

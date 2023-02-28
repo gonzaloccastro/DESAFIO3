@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
 
   try {
     const response = await userModel.create(newUser);
-    res.send({ status: "success", payload: response }).redirect('/login');
+    res.send({ status: "success", payload: response });
   } catch (err) {
     res.status(500).send(err.message);
   }
