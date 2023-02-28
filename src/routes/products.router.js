@@ -1,5 +1,6 @@
 import express, { json } from 'express';
 import  {ProductFileManager} from "../dao/classes/DbManager.js";
+import userModel from '../models/user.model.js';
 
 
 const productRouter = express.Router();
