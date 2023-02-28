@@ -1,6 +1,3 @@
-/*const socket = io();
-let chatBox = document.getElementById("chatBox");
-*/
 
 const elementExists = (id) => document.getElementById(id) !== null;
 
@@ -8,12 +5,23 @@ elementExists("send") &&
 document.getElementById("send").addEventListener("click", async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-
+    /*
     console.log(email, password)
     await fetch(`/?email=${email}&password=${password}`)
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
+    });*/
+  fetch("/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  })
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error(error));
 });
 
 elementExists("getButton") &&
@@ -26,23 +34,54 @@ elementExists("getButton") &&
 });
 
 elementExists("signup") &&
-  document.getElementById("signup").addEventListener("click", function () {
-    const myForm = document.getElementById("myForm");
-    const formData = new FormData(myForm);
-    const data = Object.fromEntries(formData);
-    console.log(data);
+document.getElementById("signup").addEventListener("click", function () {
+  const myForm = document.getElementById("myForm");
+  const formData = new FormData(myForm);
+  const data = Object.fromEntries(formData);
+  console.log(data);
 
-    fetch("/signup/signup", {
+  fetch("/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+});
+
+elementExists("forgotPassword") &&
+document
+  .getElementById("forgotPassword")
+  .addEventListener("click", function () {
+    const email = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    fetch("/forgot", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ email, password }),
     })
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.error(error));
-  });
+});
+
+
+
+
+
+
+
+
+/*const socket = io();
+let chatBox = document.getElementById("chatBox");
+*/
+
 
 /*
 console.log("desde el cliente");

@@ -1,5 +1,7 @@
 import { Router } from "express";
 import userModel from "../models/user.model.js";
+import { createHash } from "../utils.js";
+
 
 const router = Router();
 
@@ -16,7 +18,7 @@ router.post("/", async (req, res) => {
     last_name,
     email,
     age,
-    password,
+    password: createHash(password),
   };
 
   try {

@@ -1,14 +1,11 @@
 import express, { Router } from "express";
 import {engine} from "express-handlebars";
 import __dirname from './utils.js';
-import router from "./routes/views.router.js";
-import { Server } from "socket.io";
 import {ProductManager} from "./dao/classes/FileManager.js";
 import path from "path";
 import mongoose from "mongoose";
 import productRouter from "./routes/products.router.js";
 import cartRouter from "./routes/carts.router.js";
-import { MessagesFileManager } from "./dao/classes/DBManager.js";
 import * as dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import session from 'express-session';
@@ -16,6 +13,14 @@ import MongoStore from 'connect-mongo';
 import signupRouter from "./routes/signup.routes.js";
 import loginRouter from "./routes/login.routes.js";
 import bodyParser from "express";
+
+import userService from "./models/user.model.js";
+import passport from "passport";
+import local from "passport-local";
+import forgotRouter from "./routes/forgot.routes.js";
+import { isValidPassword } from "./utils.js";
+import initializePassport from "./config/passport.config.js";
+
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;
@@ -25,6 +30,7 @@ const DB_PASS = process.env.DB_PASS;
 const STRING_CONNECTION = `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.rwwtfis.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
 
 const app = express();
+const router = express.Router();
 
 app.engine('handlebars', engine(
   {
@@ -46,7 +52,7 @@ app.use(express.static(__dirname+'/public'))
 
 app.use("/products", productRouter);
 app.use("/carts", cartRouter);
-/*app.use("/chat", router);*/
+app.use("/forgot", forgotRouter);
 
 app.use(
   session({
@@ -67,20 +73,105 @@ app.use(
 app.use("/signup", signupRouter);
 app.use("/", loginRouter);
 
-const messages = [];
+const LocalStrategy = local.Strategy;
+initializePassport(passport);
+app.use(passport.initialize());
+app.use(passport.session());
 
-const httpServer = app.listen(PORT, () => {
-    console.log(`Server started at http://localhost:${PORT}`);
+
+
+
+router.post(
+  "/register",
+  passport.authenticate("register", {
+    successRedirect: "/signup",
+    failureRedirect: "/forgot",
+  }),
+  (req, res) => {
+    res.send({ status: "success", message: "user Registered" });
+  }
+);
+
+router.get("/failRegister", (req, res) => {
+  res.send({ status: "fail", message: "user not Registered" });
+});
+
+passport.use(
+  "login",
+  new LocalStrategy(
+    { usernameField: "email" },
+    async (email, password, done) => {
+      try {
+        const user = await userService.findOne({ email: email });
+        if (!user) {
+          console.log("User not found");
+          return done(null, false, { message: "User not found" });
+        }
+        if (!isValidPassword(user, password)) {
+          console.log("Password incorrect");
+          return done(null, false, { message: "Password incorrect" });
+        }
+      } catch (error) {}
+    }
+  )
+);
+
+router.post(
+  "/login",
+  passport.authenticate("login", { failureRedirect: "/faillogin" }),
+  async (req, res) => {
+    if (!req.user) {
+      res.send({ status: "fail", message: "user not found" });
+    }
+    req.session.user = {
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      email: req.user.email,
+      age: req.user.age,
+    };
+    res.send({ status: "success", message: "user found", payload: req.user });
+  }
+);
+
+router.get("/faillogin", (req, res) => {
+  res.send({ status: "fail", message: "failed login" });
 });
 
 
+const httpServer = app.listen(PORT, () => {
+  console.log(`Server started at http://localhost:${PORT}`);
+});
+
 const environment = async () => {
-  await mongoose
-    .connect(STRING_CONNECTION)
-    .then(() => console.log("Conectado a la base de datos"))
-    .catch((error) => console.log("Error de conexion", error));
+await mongoose
+  .connect(STRING_CONNECTION)
+  .then(() => console.log("Conectado a la base de datos"))
+  .catch((error) => console.log("Error de conexion", error));
 };
 
+/*
+app.post("/socketMessage", (req, res) => {
+const { message } = req.body;
+socketServer.emit("message", message);
+res.send("ok");
+});
+*/
+
+
+const isEnvSetted = () => {
+  if (DB_PASS && DB_USER) return true;
+  else return false;
+};
+
+isEnvSetted && environment();
+
+/*
+socket.on("message", (data) => {
+    messages.push(data);
+    socketServer.emit("messageLogs", messages);
+});*/
+
+/*
 const socketServer = new Server(httpServer);
 socketServer.on("connection", (socket)=>{
   socket.emit("message", "Bienvenido")
@@ -92,7 +183,7 @@ socketServer.on("connection", (socket)=>{
       message: data.message,
     };
   messagesFileManager.create(messageToDb);
-})});
+})});*/
 /*
 socket.on("new-message", (data) => {
   const uploader = new ProductManager(
@@ -110,16 +201,10 @@ socket.on("delete", (productId) => {
 });
 */
 
-app.post("/socketMessage", (req, res) => {
-  const { message } = req.body;
-  socketServer.emit("message", message);
-  res.send("ok");
-});
-
+/*
 app.get("/messages", (req, res) => {
   res.json(messages);
 });
-
 socketServer.on("connection", (socket) => {
   console.log("Nuevo cliente conectado!");
   socket.on("new-user", (data) => {
@@ -130,17 +215,4 @@ socketServer.on("connection", (socket) => {
       user: socket.user,
       id: socket.id,
   })})
-});
-
-/*
-socket.on("message", (data) => {
-    messages.push(data);
-    socketServer.emit("messageLogs", messages);
 });*/
-
-const isEnvSetted = () => {
-  if (DB_PASS && DB_USER) return true;
-  else return false;
-};
-
-isEnvSetted && environment();
