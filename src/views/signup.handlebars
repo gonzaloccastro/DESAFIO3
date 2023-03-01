@@ -3,12 +3,12 @@
   <form id="myForm" method="GET" class="speaker-form">
     <div class="form-row">
       <label for="full-name">Nombre</label>
-      <input id="full-name" name="first_name" type="text" />
+      <input id="full-name" name="first_name" type="text" required>
     </div>
     <br>
     <div class="form-row">
         <label for="full-user">Apellido</label>
-        <input id="lastName" name="last_name" type="text" />
+        <input id="lastName" name="last_name" type="text" required>
     </div>
     <br>
     <div class="form-row">
@@ -17,23 +17,24 @@
         id="email"
         name="email"
         type="email"
-      />
+        required
+      >
       </div>
       <br>
       <div class="form-row">
         <label for="full-user">Age</label>
-        <input id="age" name="age" type="text" />
+        <input id="age" name="age" type="text" required>
       </div>
       <br>
       <div class="form-row">
         <label for="full-user">Password</label>
-        <input id="password" name="password" type="password" />
+        <input id="password" name="password" type="password" required>
       </div>
     </div>
 
     <div class="form-row">
       <br>
-      <button id="signup" type="button" class="signup">
+      <button id="signup" type="submit" class="signup">
         Crear usuario
       </button>
     </div>

@@ -10,9 +10,9 @@ const initializePassport = () => {
   passport.use(
     "github",
     new GitHubStrategy({
-      clientID: process.env.GUTHUB_CLIENT_ID,
+      clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL:  `http://localhost:${process.env.PORT}/api/sessions/githubcallback`,
+      callbackURL:  `http://localhost:8080/api/sessions/githubcallback`,
     }, async (accessToken, refreshToken, profile, done)=>{
       try {
         console.log(profile);
@@ -23,14 +23,16 @@ const initializePassport = () => {
             last_name: profile.displayName,
             email: profile.emails[0].value,
             age: 12,
-            passwprd: "",
+            password: "",
           };
           let result = await userService.create(newUser);
+          done(null, result);
+        } else {
+          done(null, user);
         }
       } catch (error) {
-        return done("Error al obtener el usuario", false);
+        done(error, null);
       }
-
     })
   );
 

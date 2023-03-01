@@ -13,6 +13,8 @@ import MongoStore from 'connect-mongo';
 import signupRouter from "./routes/signup.routes.js";
 import loginRouter from "./routes/login.routes.js";
 import bodyParser from "express";
+import viewsRouter from "./routes/views.router.js";
+import sessionRoutes from "./routes/session.routes.js";
 
 import userService from "./models/user.model.js";
 import passport from "passport";
@@ -70,8 +72,11 @@ app.use(
   })
 );
 
+
+app.use("/", viewsRouter);
+app.use("/api/sessions", sessionRoutes);
 app.use("/signup", signupRouter);
-app.use("/", loginRouter);
+//app.use("/", loginRouter);
 
 const LocalStrategy = local.Strategy;
 initializePassport(passport);
