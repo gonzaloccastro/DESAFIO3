@@ -1,4 +1,66 @@
-import express, { json } from 'express';
+import { Router } from "express";
+import DbManager from "../dao/classes/DbManager.js";
+
+const router = Router();
+const productManger = new DbManager.ProductManger(); 
+
+router.get('/', async (req,res) => {
+    const {limit, page, sort, query} = req.query
+    let queryList = {limit, page, sort, query}
+    
+    try{
+        const products = await productManger.getProduct(queryList);
+        // res.status(200).send(products)
+        res.send({status: 'success', products})
+    }
+    catch (err){
+        res.status(500).send(err.message);
+    }
+})
+
+router.post('/', async (req,res) => {
+    const newProduct = {
+        ...req.body,
+      };
+      try {
+        const response = await productManger.createProduct(newProduct);
+        res.send(response);
+      } catch (err) {
+        res.status(500).send(err.message);
+      }
+})
+
+router.put('/:id', async (req, res) => {
+    const {id} = req.params;
+    const product = req.body;
+    try{
+        const response = await productManger.updateProduct(id, product);
+        res.send(response); 
+    }
+    catch (err) {
+        res.status(500).send(err.message);
+    }
+})
+
+router.delete('/:id', async (req, res) => {
+    const {id} = req.params;
+    try{
+        const response = await productManger.deleteProduct(id);
+        res.send({
+            message: 'Product deleted successfully',
+            id: id
+        })
+    }
+    catch(err) {
+        res.status(500).send( err.message)
+    }
+})
+
+
+export default router;
+
+
+/*import express, { json } from 'express';
 import  {ProductFileManager} from "../dao/classes/DbManager.js";
 import userModel from '../models/user.model.js';
 
@@ -40,7 +102,7 @@ productRouter.get('/products', async (req,res)=>{
         res.status(500).send(error.message);
     }
 });*/
-
+/*
 productRouter.get('/:pid', async (req,res)=>{
     try {
         const pid = req.params.pid;
@@ -95,4 +157,4 @@ productRouter.delete("/:pid", async (req, res) => {
     }
 }
 )
-export default productRouter;
+export default productRouter;*/

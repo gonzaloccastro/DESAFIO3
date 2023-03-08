@@ -1,5 +1,76 @@
-import express, { json } from 'express';
+import { Router } from "express";
+import DbManager from "../dao/classes/DbManager.js";
+
+
+const router = Router();
+const cartManager = new DbManager.CartManager();
+
+router.get('/', async (req, res) => {
+    try{
+        const cart = await cartManager.getCart()
+        res.send(cart)
+    }
+    catch (err){
+        res.status(500).send(err.message)
+    }
+})
+
+
+router.post('/', async (req, res) => {
+    try{
+        const response = await cartManager.createCart([])
+        res.send(response)
+    }
+    catch (err){
+        res.status(500).send(err.message)
+    }
+})
+
+router.put('/:cid/products/:pid', async (req, res) => {
+    const {cid} = req.params;
+    const {pid} = req.params;
+    let {quantity} = req.body
+    try {
+        const response = await cartManager.addProductToCart(cid, pid, quantity);
+        res.send(response);
+      } catch (err) {
+        res.status(500).send(err.message);
+      }
+})
+router.delete('/:cid/products/:pid', async (req, res) => {
+    const {cid} = req.params;
+    const {pid} = req.params;
+
+    try {
+        const response = await cartManager.removeProductFromCart(cid, pid);
+        res.send({
+            message: 'Product deleted successfully',
+            id: pid
+        })
+      } catch (err) {
+        res.status(500).send(err.message);
+      }
+})
+
+router.delete('/:cid' , async (req,res)=>{
+    const {cid} = req.params;
+    try {
+        const response = await cartManager.deleteAllProductCart(cid);
+        res.send({
+            message: 'Cart deleted successfully',
+            id: cid
+        })
+    }
+    catch (err) {
+        req.status(500).send(err.message)
+    }
+})
+
+export default router
+
+/*import express, { json } from 'express';*/
 /*import { uuid } from 'uuidv4';*/
+/*
 import  {CartFileManager} from "../dao/classes/DbManager.js";
 import { ProductFileManager } from '../dao/classes/DbManager.js';
 
@@ -140,4 +211,4 @@ cartRouter.delete("/:cid/product/:pid", async (req, res) => {
   }   
 )
 
-export default cartRouter;
+export default cartRouter;*/

@@ -2,7 +2,6 @@ import express, { Router } from "express";
 import {engine} from "express-handlebars";
 import __dirname from './utils.js';
 import {ProductManager} from "./dao/classes/FileManager.js";
-import path from "path";
 import mongoose from "mongoose";
 import productRouter from "./routes/products.router.js";
 import cartRouter from "./routes/carts.router.js";
@@ -13,7 +12,6 @@ import MongoStore from 'connect-mongo';
 import signupRouter from "./routes/signup.routes.js";
 import loginRouter from "./routes/login.routes.js";
 import bodyParser from "express";
-import viewsRouter from "./routes/views.router.js";
 import sessionRoutes from "./routes/session.routes.js";
 
 import userService from "./models/user.model.js";
@@ -22,7 +20,11 @@ import local from "passport-local";
 import forgotRouter from "./routes/forgot.routes.js";
 import { isValidPassword } from "./utils.js";
 import initializePassport from "./config/passport.config.js";
-
+import viewsRouter from "./routes/views.router.js";
+import registroRouter from "./routes/registro.routes.js";
+import productsRoutes from "./routes/products.router.js";
+import cartRoutes from "./routes/carts.router.js";
+import githubRoutes from "./routes/github.routes.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;
@@ -58,7 +60,7 @@ app.use("/forgot", forgotRouter);
 
 app.use(
   session({
-    secret: "coderhouse",
+    secret: "gonzaloPass",
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
@@ -82,7 +84,6 @@ const LocalStrategy = local.Strategy;
 initializePassport(passport);
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 
 
