@@ -73,12 +73,17 @@ app.use(
     }),
   })
 );
-
+app.use("/api/home", viewsRouter);
+app.use("/api/registro", registroRouter);
+app.use("/api/login", loginRouter);
+app.use("/api/products", productsRoutes);
+app.use("/api/carts", cartRoutes);
+app.use("/api/sessions", githubRoutes);
 
 app.use("/", viewsRouter);
 app.use("/api/sessions", sessionRoutes);
-app.use("/signup", signupRouter);
-//app.use("/", loginRouter);
+/*app.use("/signup", signupRouter);*/
+/*app.use("/api/sessions", loginRouter);*/
 
 const LocalStrategy = local.Strategy;
 initializePassport(passport);
