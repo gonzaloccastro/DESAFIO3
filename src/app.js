@@ -78,7 +78,7 @@ app.use("/api/registro", registroRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/products", productsRoutes);
 app.use("/api/carts", cartRoutes);
-app.use("/api/sessions", githubRoutes);
+// app.use("/api/sessions", githubRoutes);
 
 app.use("/", viewsRouter);
 app.use("/api/sessions", sessionRoutes);

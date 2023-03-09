@@ -3,10 +3,34 @@ import local from "passport-local";
 import userService from "../models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import GitHubStrategy from "passport-github2";
+import jwt from 'passport-jwt';
 
 const LocalStrategy = local.Strategy;
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT = jwt.ExtractJwt;
 
 const initializePassport = () => {
+  
+    // --- Extractor
+    const cookieExtractor = req => {
+      let token = null;
+      if( req && req.cookies ){
+          token = req.cookies['secretToken']
+      };
+      return token;
+    }
+
+  passport.use('current', new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+    secretOrKey: 'pageSecret'
+  }, async(jwt_payload, done) => {
+    try{
+        return done(null, jwt_payload);
+    } catch(err){
+        return done(err);
+    }
+  })
+  )
 
   passport.use(
     "github",

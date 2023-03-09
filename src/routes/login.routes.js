@@ -2,14 +2,13 @@
 import { Router } from "express";
 import passport from 'passport';
 import registroModel from "../models/registro.model.js";
+import { passportCall } from "../utils.js";
 
 const router = Router();
-
 
 router.get('/', (req, res) => {
     res.render('login', {});
 })
-
 
 router.post('/user', passport.authenticate('login', {failureRedirect: '/faillogin'}), async (req, res) => { 
     if(!req.user) return res.status(400).send({status: 'error', error: 'Usuario no encontrado'});
@@ -20,7 +19,7 @@ router.post('/user', passport.authenticate('login', {failureRedirect: '/faillogi
         age: req.user.age
     }
     req.session.admin = true;
-    return res.status(200).send({message:'success'})
+    return res.status(200).send({message:'success'},)
 })
 
 router.get('/faillogin', async (req, res) => {
@@ -36,11 +35,10 @@ const auth = async (req, res, next) => {
     }
 }
 
-
-router.get('/products', auth, async (req,res)=>{
+router.get('/products', auth, passportCall('current'), async (req,res)=>{
     if (await req.session.user){
         const userData = await registroModel.findOne({ email: req.session.user.email})
-        const {firstName, lastName} = userData
+        const {firstName, lastName} = userData;
         res.render('products',{firstName, lastName}) 
     }
 })

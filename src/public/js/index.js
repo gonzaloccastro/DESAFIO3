@@ -51,17 +51,26 @@ const handleLogin = async (email, password) => {
 };
 
 elementExists("send") &&
-  document.getElementById("send").addEventListener("click", function () {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    handleLogin(email, password).then((data) => {
-      if (data === "success") {
+  document.getElementById("send").addEventListener("click", 
+  
+  async () => {
+    try {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      await handleLogin(email, password)
+      .then((data) => {
+        if (data === "success") {
         window.location.href = "/api/login/products";
-      } else {
+        } else {
+        console.log()
         alert("Usuario o contraseña incorrecta");
-      }
-    });
-  });
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+});
+
 
 elementExists("logout") &&
   document
@@ -79,7 +88,7 @@ elementExists("logout") &&
       } catch (error) {
         console.log(error);
       }
-    });
+});
 
 // -----------------------PRODUCTOS------------------------------------------------------
 
